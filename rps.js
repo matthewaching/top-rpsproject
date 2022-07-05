@@ -15,12 +15,19 @@ function computerPlay() {
 
 let playerAnswer = prompt('Choose your weapon of choice! Rock, paper, or scissors?');
 
-function rejectAnswer() {
-    if (!(playerAnswer.toLowerCase() === 'rock' || playerAnswer.toLowerCase() === 'paper' || playerAnswer.toLowerCase() === 'scissors')) {
-        alert('That\'s not one of your options! Please enter a valid choice.')
-        playerAnswer = prompt('Choose your weapon of choice! Rock, paper, or scissors?');
-        rejectAnswer();
+function rejectAnswer(answer) {
+    if (!(answer.toLowerCase() === 'rock' || answer.toLowerCase() === 'paper' || answer.toLowerCase() === 'scissors')) {
+        alert('That\'s not one of your options! Please enter a valid choice.');
+        answer = prompt('Choose your weapon of choice! Rock, paper, or scissors?');
+        answer = rejectAnswer(answer);
+        return answer;
+    } else {
+    return answer;
     }
 }
 
-rejectAnswer();
+// playerAnswer = rejectAnswer(playerAnswer);
+
+// function playRound (playerSelection, computerSelection) {
+
+// }

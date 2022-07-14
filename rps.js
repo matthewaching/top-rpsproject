@@ -7,22 +7,15 @@ let gameResult;
 let playerScore = 0;
 let computerScore = 0;
 
-for (let i = 0; i < 5; i++) {
-    playerAnswer = prompt('Choose your weapon of choice! Rock, paper, or scissors?');
-    playerSelection = rejectAnswer(playerAnswer);
-    computerPlay();
-    gameResult = playRound(playerSelection, computerSelection);
-    if (gameResult === 'pwin') {
-        playerScore++;
-    } else if (gameResult === 'cwin') {
-        computerScore++;
-    }
-    console.log(computerSelection);
+updateScore();
+
+const buttons = document.querySelectorAll('.selection');
+buttons.forEach(parseButton);
+
+function updateScore() {
+    document.querySelector('.player-scoreboard').textContent = `Player Score: ${playerScore}`;
+    document.querySelector('.computer-scoreboard').textContent = `Computer Score: ${computerScore}`;
 }
-
-// Final results. Plan to add victor declaration.
-
-alert('Final results: You scored ' + playerScore + '. Computer scored ' + computerScore + '.');
 
 function computerPlay() {
     const choiceNumber = Math.floor(Math.random() * 3);
@@ -36,20 +29,8 @@ function computerPlay() {
     return computerSelection;
 }
 
-function rejectAnswer(answer) {
-    if (!(answer.toLowerCase() === 'rock' || answer.toLowerCase() === 'paper' || answer.toLowerCase() === 'scissors')) {
-        alert('That\'s not one of your options! Please enter a valid choice.');
-        answer = prompt('Choose your weapon of choice! Rock, paper, or scissors?');
-        answer = rejectAnswer(answer);
-        return answer.toLowerCase();
-    } else {
-    return answer.toLowerCase();
-    }
-}
-
-// Plan to add computerSelection into alerts so that player is aware. 
-
 function playRound (playerSelection, computerSelection) {
+    alert(`Computer chooses ${computerSelection}.`);
     if (playerSelection === computerSelection) {
         alert('Player and computer tie!');
         return 'tie';
@@ -77,5 +58,31 @@ function playRound (playerSelection, computerSelection) {
             alert('Player wins!');
             return 'pwin';
         }
+    }
+}
+
+function parseButton(button) {
+    button.addEventListener('click', () => {
+        computerPlay();
+        gameResult = playRound(button.id, computerSelection);
+        if (gameResult === 'pwin') {
+            playerScore++;
+        } else if (gameResult === 'cwin') {
+            computerScore++;
+        }
+        checkWin();
+        updateScore();
+    });
+}
+
+function checkWin() {
+    if (playerScore === 5) {
+        alert('Player wins the game! Congratulations!');
+        playerScore = 0;
+        computerScore = 0;
+    } else if (computerScore === 5) {
+        alert('Computer wins the game! Better luck next time!');
+        playerScore = 0;
+        computerScore = 0;
     }
 }
